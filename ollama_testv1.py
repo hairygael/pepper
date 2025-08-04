@@ -172,8 +172,8 @@ def main():
     leds = session.service("ALLeds")          # LEDs faciales
 
     # Monte le gain micro via ALSA (90 %)
-    subprocess.call(["amixer", "sset", "Capture", "90%"])
-    safe_print("[OK] Volume micro réglé à 90%")
+    subprocess.call(["amixer", "sset", "Capture", "100%"])
+    safe_print("[OK] Volume micro réglé à 100%")
 
     # Coupe Nuance/Dialog Android pour libérer le moteur ASR
     try:
@@ -187,6 +187,9 @@ def main():
     language: frf
     u:(bonjour *) $1
     """
+    topics = dialog.getAllLoadedTopics()
+    for t in topics:
+        dialog.unloadTopic(t)
     topic_name = dialog.loadTopicContent(topic_content)
     dialog.activateTopic(topic_name)
     dialog.subscribe("HotwordDialog")
